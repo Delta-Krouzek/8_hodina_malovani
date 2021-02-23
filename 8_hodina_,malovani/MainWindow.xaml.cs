@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -129,7 +130,15 @@ namespace _8_hodina__malovani
 
         private void bntUlozit_Click(object sender, RoutedEventArgs e)
         {
-
+            var bitmapa = CopyAsBitmap(mrizka);
+            var zakodovano = Encode(bitmapa, new PngBitmapEncoder());
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Obrázek png|*.png";
+            dialog.DefaultExt = "png";
+            if (dialog.ShowDialog() == true)
+            {
+                File.WriteAllBytes(dialog.FileName, zakodovano);
+            }
         }
 
         private void btnVymazat_Click(object sender, RoutedEventArgs e)
