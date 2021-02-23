@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -104,9 +105,36 @@ namespace _8_hodina__malovani
             }
         }
 
+        public RenderTargetBitmap CopyAsBitmap(FrameworkElement frameworkElement)
+        {
+            int targetWidth = (int)frameworkElement.ActualWidth;
+            int targetHeight = (int)frameworkElement.ActualHeight;
+            if (targetWidth == 0 || targetHeight == 0)
+            {
+                return null;
+            }
+            RenderTargetBitmap result = new RenderTargetBitmap(targetWidth, targetHeight, 96, 96, PixelFormats.Pbgra32);
+            result.Render(frameworkElement);
+            return result;
+        }
+
+        public static byte[] Encode(BitmapSource bitmapSource, BitmapEncoder bitmapEncoder)
+        {
+            var bitmapFrame = BitmapFrame.Create(bitmapSource);
+            bitmapEncoder.Frames.Add(bitmapFrame);
+            var memoryStream = new MemoryStream();
+            bitmapEncoder.Save(memoryStream);
+            return memoryStream.ToArray();
+        }
+
         private void bntUlozit_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnVymazat_Click(object sender, RoutedEventArgs e)
+        {
+            mrizka.Children.Clear();
         }
     }
 }
