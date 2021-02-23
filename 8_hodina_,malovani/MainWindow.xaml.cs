@@ -63,27 +63,45 @@ namespace _8_hodina__malovani
 
         private void Kolecko_MouseEnter(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            if (sender is Ellipse kolecko)
+            {
+                if (maze)
+                {
+                    mrizka.Children.Remove(kolecko);
+                }
+            }
         }
 
         private void mrizka_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            maze = true;
         }
 
         private void mrizka_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-
+            maze = false;
         }
 
         private void btnBarva_Click(object sender, RoutedEventArgs e)
         {
-
+            System.Windows.Forms.ColorDialog vyberBarvu = new System.Windows.Forms.ColorDialog();
+            if (vyberBarvu.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                barva = Color.FromArgb(vyberBarvu.Color.A, vyberBarvu.Color.R, vyberBarvu.Color.G, vyberBarvu.Color.B);
+                btnBarva.Background = new SolidColorBrush(barva);
+            }
         }
 
         private void sldrVelikost_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
+            if (sender is Slider slider)
+            {
+                if (lblVelikost != null)
+                {
+                    lblVelikost.Content = Math.Round(slider.Value, 2);
+                }
+                velikost = slider.Value;
+            }
         }
 
         private void bntUlozit_Click(object sender, RoutedEventArgs e)
